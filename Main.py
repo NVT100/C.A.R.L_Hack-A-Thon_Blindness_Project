@@ -1,17 +1,19 @@
+import pyttsx3
 from ultralytics import YOLO
 from ultralytics.utils.plotting import Annotator
 import cv2
 import time
 from xbox360controller import Xbox360Controller
 from collections import defaultdict
+import speech_recognition as sr
 
-from rgb import rgb, colors
+r = sr.Recognizer()
 
 model = YOLO("yolov8s.pt")
 
 track_history = defaultdict(lambda: [])
 
-cap = cv2.VideoCapture(2)  # can change to use different webcams
+cap = cv2.VideoCapture(2)
 
 if not cap.isOpened():
     raise IOError("Cannot open webcam")
@@ -71,7 +73,6 @@ while True:
 
     original_frame = cv2.putText(original_frame, "Press r to restart", (10, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
                                  (0, 255, 0), 2)
-
     for pred in results:
         names = pred.names
 
@@ -98,30 +99,9 @@ while True:
             if 0.4 < area / frame_area and 320 >= (bounding_box[0] + bounding_box[2]) / 2.0:
                 with Xbox360Controller(0) as controller:
                     controller.set_rumble(1, 1, 2000)
-                    time.sleep(.5)
             if 0.4 < area / frame_area and 320 < (bounding_box[0] + bounding_box[2]) / 2.0:
                 with Xbox360Controller(1) as controller1:
                     controller1.set_rumble(1, 1, 2000)
-                    time.sleep(.5)
-
-            # print(f"{name} {int(confidence * 100)}% {bounding_box}")
-
-            # original_frame = cv2.putText(original_frame,
-            #                              f"{name} ({int(confidence*100)})% {int(area)}px",
-            #                              (int(bounding_box[0]), int(bounding_box[1])-5),
-            #                              cv2.FONT_HERSHEY_SIMPLEX, 0.4, color.as_bgr(), 1)
-            # original_frame = cv2.rectangle(original_frame,
-            #                                (int(bounding_box[0]), int(bounding_box[1])),
-            #                                (int(bounding_box[2]), int(bounding_box[3])),
-            #                                color.as_bgr(), 1)
-
-            # annotator = Annotator(original_frame, line_width=1)
-
-            # annotator.box_label((x, y, x + w, y + h), f"{name} ({int(confidence * 100)})% {int(area)}px",
-            #                     color=color.as_bgr(), txt_color=color.text_color().as_bgr())
-
-            # original_frame = annotator.result()
-
     cv2.imshow("result", original_frame)
     c = cv2.waitKey(1)
     if c == 107:
