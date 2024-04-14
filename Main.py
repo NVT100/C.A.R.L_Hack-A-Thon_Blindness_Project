@@ -95,13 +95,11 @@ while True:
 
             #
 
-            print(str(area / frame_area) + "!!!!")
-            print((int(bounding_box[0]) + int(bounding_box[2])) / 2)
-            if 0.3 < area / frame_area and 320 >= (bounding_box[0] + bounding_box[2]) / 2.0:
+            if 0.4 < area / frame_area and 320 >= (bounding_box[0] + bounding_box[2]) / 2.0:
                 with Xbox360Controller(0) as controller:
                     controller.set_rumble(1, 1, 2000)
                     time.sleep(.5)
-            if 0.3 < area / frame_area and 320 < (bounding_box[0] + bounding_box[2]) / 2.0:
+            if 0.4 < area / frame_area and 320 < (bounding_box[0] + bounding_box[2]) / 2.0:
                 with Xbox360Controller(1) as controller1:
                     controller1.set_rumble(1, 1, 2000)
                     time.sleep(.5)
@@ -151,4 +149,3 @@ cv2.destroyAllWindows()
 
 print(f"Avg FPS: {total_frames / (time.perf_counter() - prog_start)}")
 
-# AVG FPS: 28.414
