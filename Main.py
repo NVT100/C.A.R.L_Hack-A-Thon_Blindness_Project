@@ -1,6 +1,6 @@
 import pyttsx3
 from ultralytics import YOLO
-from ultralytics.utils.plotting import Annotator
+
 import cv2
 import time
 from xbox360controller import Xbox360Controller
