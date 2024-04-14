@@ -38,4 +38,5 @@ colors: dict[str, rgb] = {
     "red_racquet_ball": rgb(255, 153, 0),
     "yellow_racquet_ball": rgb(204, 255, 0),
     "blue_racquet_ball": rgb(102, 20, 219),
+
 }
