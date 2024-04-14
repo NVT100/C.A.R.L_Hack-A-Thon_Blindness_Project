@@ -94,23 +94,27 @@ while True:
             area = (bounding_box[2] - bounding_box[0]) * (bounding_box[3] - bounding_box[1])
 
             #
-            # # Disregard large bounding boxes
-            #
-            if area / frame_area > 0.40:
-                with Xbox360Controller() as controller:
-                    controller.set_rumble(1,1,2000)
-                    time.sleep(.5)
 
+            print(str(area / frame_area) + "!!!!")
+            print((int(bounding_box[0]) + int(bounding_box[2])) / 2)
+            if 0.3 < area / frame_area and 320 >= (bounding_box[0] + bounding_box[2]) / 2.0:
+                with Xbox360Controller(0) as controller:
+                    controller.set_rumble(1, 1, 2000)
+                    time.sleep(.5)
+            if 0.3 < area / frame_area and 320 < (bounding_box[0] + bounding_box[2]) / 2.0:
+                with Xbox360Controller(1) as controller1:
+                    controller1.set_rumble(1, 1, 2000)
+                    time.sleep(.5)
 
             # print(f"{name} {int(confidence * 100)}% {bounding_box}")
 
-            # original_frame = cv2.putText(original_frame, 
+            # original_frame = cv2.putText(original_frame,
             #                              f"{name} ({int(confidence*100)})% {int(area)}px",
             #                              (int(bounding_box[0]), int(bounding_box[1])-5),
             #                              cv2.FONT_HERSHEY_SIMPLEX, 0.4, color.as_bgr(), 1)
             # original_frame = cv2.rectangle(original_frame,
             #                                (int(bounding_box[0]), int(bounding_box[1])),
-            #                                (int(bounding_box[2]), int(bounding_box[3])), 
+            #                                (int(bounding_box[2]), int(bounding_box[3])),
             #                                color.as_bgr(), 1)
 
             # annotator = Annotator(original_frame, line_width=1)
